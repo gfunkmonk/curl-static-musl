@@ -104,10 +104,8 @@ zlib-dev \
 zlib-static \
 zstd-dev \
 zstd-static \
-brotli-dev \
-brotli-static \
 clang \
-curl \
+curl-static \
 gawk \
 flex \
 bison \
@@ -116,8 +114,8 @@ patch \
 perl && \
 tar xf curl-${CURL_VERSION}.tar.xz && \
 cd curl-${CURL_VERSION}/ && \
-./configure --with-ca-bundle=/etc/ssl/cert.pem --disable-shared --enable-static --enable-unix-sockets --enable-ipv6 --with-ssl --with-libssh2 --disable-ldap --disable-docs --disable-manual --without-libpsl CC=clang LDFLAGS='-static' PKG_CONFIG='pkg-config --static' CFLAGS='-Os -Wno-unterminated-string-initialization' PERL=/usr/bin/perl && \
-make -j\$(nproc) && \
+./configure --disable-shared --enable-static --disable-ldap --enable-ipv6 --enable-unix-sockets --with-ssl --with-libssh2 --disable-docs --disable-manual --without-libpsl CC=clang LDFLAGS='-static' PKG_CONFIG='pkg-config --static' CFLAGS='-Os -Wno-unterminated-string-initialization' && \
+make -j\$(nproc) V=1 LDFLAGS='-static -all-static' && \
 strip src/curl && \
 upx --lzma src/curl"
 mkdir -p dist
